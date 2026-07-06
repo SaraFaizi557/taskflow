@@ -14,7 +14,7 @@ import NavUser from "./nav-user";
 import Link from "next/link";
 import Image from "next/image";
 import { NavMain } from "./nav-main";
-import { IconCalendarMonth, IconCategory, IconListDetails, IconMessageCircle, IconSettings } from "@tabler/icons-react";
+import { IconCalendarMonth, IconCategory, IconListDetails, IconSettings } from "@tabler/icons-react";
 import { Separator } from "../ui/separator";
 import { NavSecondary } from "./nav-secondary";
 
@@ -67,12 +67,12 @@ export default function AppSidebar() {
       <Separator />
       <SidebarContent>
       <NavMain items={data.navMain} />
-      <NavSecondary items={data.navSecondary} className="mt-auto" />
+      <NavSecondary items={data.navSecondary} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser />
       </SidebarFooter>
-      <SidebarRail className="" />
+      <SidebarRail />
     </Sidebar>
   );
 }

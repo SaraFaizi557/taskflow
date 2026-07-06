@@ -1,5 +1,6 @@
 import AppSidebar from "@/components/layout/app-sidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SiteHeader } from "@/components/layout/site-header";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 export default function DashboardLayout({
@@ -13,10 +14,10 @@ export default function DashboardLayout({
                 <TooltipProvider>
                     <AppSidebar />
                 </TooltipProvider>
-                <div className="flex-1 p-2">
-                    <SidebarTrigger />
+                <main className="flex-1">
+                    <SiteHeader />
                     {children}
-                </div>
+                </main>
             </SidebarProvider>
         </div>
     );
