@@ -1,79 +1,103 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuGroup,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuShortcut,
-    DropdownMenuTrigger,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Moon, Sun } from "lucide-react"
+import { Computer, Moon, Palette, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
-export function ThemeToggle() {
-    const { setTheme, theme } = useTheme()
+export function ThemeMenu() {
+  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
 
-    useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
-          // Ignore typing in inputs
-          if (
-            e.target instanceof HTMLInputElement ||
-            e.target instanceof HTMLTextAreaElement
-          ) {
-            return
-          }
-    
-          switch (e.key.toLowerCase()) {
-            case "l":
-              setTheme("light")
-              break
-            case "d":
-              setTheme("dark")
-              break
-            case "s":
-              setTheme("system")
-              break
-          }
-        }
-    
-        window.addEventListener("keydown", handleKeyDown)
-        return () => window.removeEventListener("keydown", handleKeyDown)
-      }, [setTheme])
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
-    return (
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
-                    {theme === "light" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-                </Button>
-            </DropdownMenuTrigger>
+  if (!mounted) {
+    return null
+  }
 
-            <DropdownMenuContent
-                align="end"
-                className="w-36"
-            >
-                <DropdownMenuGroup>
-                <DropdownMenuLabel>Theme</DropdownMenuLabel>
-                    <DropdownMenuItem onClick={() => setTheme("light")} className={theme === "light" ? "bg-accent text-accent-foreground" : ""}>
-                        Light
-                        <DropdownMenuShortcut>⌘L</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-
-                    <DropdownMenuItem onClick={() => setTheme("dark")} className={theme === "dark" ? "bg-accent text-accent-foreground" : ""}>
-                        Dark
-                        <DropdownMenuShortcut>⌘D</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-
-                    <DropdownMenuItem onClick={() => setTheme("system")} className={theme === "system" ? "bg-accent text-accent-foreground" : ""}>
-                        System
-                        <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                </DropdownMenuGroup>
-            </DropdownMenuContent>
-    </DropdownMenu >
+  return (
+    <DropdownMenuSub>
+      <DropdownMenuSubTrigger>
+        <Palette className="size-4" />
+        Theme
+      </DropdownMenuSubTrigger>
+      <DropdownMenuSubContent>
+        <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+        <DropdownMenuItem
+          onClick={() => setTheme("light")}
+          className={theme === "light" ? "bg-accent text-accent-foreground" : ""}
+        >
+          <Sun className="size-4" />
+          Light
+          <DropdownMenuShortcut>L</DropdownMenuShortcut>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => setTheme("dark")}
+          className={theme === "dark" ? "bg-accent text-accent-foreground" : ""}
+        >
+          <Moon className="size-4" />
+          Dark
+          <DropdownMenuShortcut>D</DropdownMenuShortcut>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => setTheme("system")}
+          className={theme === "system" ? "bg-accent text-accent-foreground" : ""}
+        >
+          <Computer className="size-4" />
+          System
+          <DropdownMenuShortcut>S</DropdownMenuShortcut>
+        </DropdownMenuItem>
+      </DropdownMenuSubContent>
+    </DropdownMenuSub>
   )
+}
+
+export function ThemeKeyboardShortcuts() {
+  const { setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (
+        e.target instanceof HTMLInputElement ||
+        e.target instanceof HTMLTextAreaElement
+      ) {
+        return
+      }
+
+      switch (e.key.toLowerCase()) {
+        case "l":
+          setTheme("light")
+          break
+        case "d":
+          setTheme("dark")
+          break
+        case "s":
+          setTheme("system")
+          break
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [setTheme])
+
+  if (!mounted) {
+    return null
+  }
+
+  return null
 }

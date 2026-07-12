@@ -10,18 +10,25 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
-    "lint": "eslint"
+    "lint": "eslint",
+    "postinstall": "node scripts/fix-arcjet-wasm.mjs"
   },
   "dependencies": {
+    "@arcjet/ip": "^1.8.0",
+    "@arcjet/next": "^1.8.0",
     "@base-ui/react": "^1.6.0",
     "@shadcn/react": "^0.2.0",
     "@tabler/icons-react": "^3.44.0",
+    "@zxcvbn-ts/core": "^4.1.2",
+    "@zxcvbn-ts/language-common": "^4.1.2",
+    "@zxcvbn-ts/language-en": "^4.1.1",
+    "better-auth": "^1.6.23",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "date-fns": "^4.4.0",
     "dotenv": "^17.4.2",
-    "drizzle-orm": "^1.0.0-rc.4",
+    "drizzle-orm": "^0.45.2",
     "embla-carousel-react": "^8.6.0",
     "input-otp": "^1.4.2",
     "lucide-react": "^1.23.0",
@@ -46,11 +53,11 @@
     "@types/pg": "^8.20.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "drizzle-kit": "^1.0.0-rc.4",
+    "drizzle-kit": "^0.31.10",
     "eslint": "^9",
     "eslint-config-next": "16.2.10",
     "tailwindcss": "^4",
-    "tsx": "^4.22.4",
+    "tsx": "^4.23.0",
     "typescript": "^5"
   }
 }

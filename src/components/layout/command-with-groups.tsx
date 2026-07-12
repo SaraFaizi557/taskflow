@@ -1,6 +1,7 @@
 "use client"
 import * as React from "react"
 import {
+  Computer,
   Search,
   SettingsIcon,
 } from "lucide-react"
@@ -16,12 +17,45 @@ import {
   CommandShortcut,
 } from "@/components/ui/command"
 import { useRouter } from "next/navigation"
-import { IconCalendarMonth, IconCategory, IconDeviceFloppy, IconListDetails, IconMoon, IconSun } from "@tabler/icons-react"
+import { IconCalendarMonth, IconCategory, IconListDetails, IconMoon, IconSun } from "@tabler/icons-react"
+import { useTheme } from "next-themes"
 
 export function CommandWithGroups() {
 
   const [open, setOpen] = React.useState(false)
   const router = useRouter()
+
+  const { setTheme, theme } = useTheme()
+
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+
+      if (
+        e.target instanceof HTMLInputElement ||
+        e.target instanceof HTMLTextAreaElement
+      ) {
+        return
+      }
+
+      switch (e.key.toLowerCase()) {
+        case "l":
+          setTheme("light")
+          setOpen(false)
+          break
+        case "d":
+          setTheme("dark")
+          setOpen(false)
+          break
+        case "s":
+          setTheme("system")
+          setOpen(false)
+          break
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [setTheme])
 
   const data = {
     navMain: [
@@ -55,14 +89,14 @@ export function CommandWithGroups() {
       {
         title: "System",
         shortcut: "⌘S",
-        icon: IconDeviceFloppy,
+        icon: Computer,
       },
     ],
   }
 
   return (
     <div className="flex flex-col gap-4">
-      <div onClick={() => setOpen(true)}className="w-fit border border-input rounded-lg px-3 py-1.5 flex cursor-default">
+      <div onClick={() => setOpen(true)} className="w-fit border border-input rounded-lg px-3 py-1.5 flex cursor-default">
         <div className="flex items-center gap-2 flex-1 md:w-40">
           <Search className="w-4 h-4" />
           <span className="hidden md:block text-sm font-normal text-muted-foreground">Search...</span>
@@ -88,7 +122,10 @@ export function CommandWithGroups() {
             <CommandSeparator />
             <CommandGroup heading="Theme">
               {data.navTheme.map((item) => (
-                <CommandItem key={item.title}>
+                <CommandItem onSelect={() => {
+                  setTheme(item.title.toLowerCase() as "light" | "dark" | "system")
+                  setOpen(false)
+                }} key={item.title}>
                   <item.icon />
                   <span>{item.title}</span>
                   <CommandShortcut>{item.shortcut}</CommandShortcut>
